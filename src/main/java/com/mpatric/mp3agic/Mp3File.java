@@ -439,9 +439,10 @@ public class Mp3File extends FileWrapper {
 		this.customTag = null;
 	}
 
-	public void save(String newFilename) throws IOException, NotSupportedException {
+	public void save(String suggestedNewFilename) throws IOException, NotSupportedException {
+		String newFilename = suggestedNewFilename;
 		if (path.toAbsolutePath().compareTo(Paths.get(newFilename).toAbsolutePath()) == 0) {
-			throw new IllegalArgumentException("Save filename same as source filename");
+			newFilename = newFilename + "_temp";
 		}
 		try (SeekableByteChannel saveFile = Files.newByteChannel(Paths.get(newFilename), EnumSet.of(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE))) {
 			if (hasId3v2Tag()) {
@@ -461,6 +462,8 @@ public class Mp3File extends FileWrapper {
 				saveFile.write(byteBuffer);
 			}
 			saveFile.close();
+			if (!suggestedNewFilename.equals(newFilename))
+				new File(newFilename).renameTo(new File(suggestedNewFilename));
 		}
 	}
 
