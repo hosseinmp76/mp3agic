@@ -108,29 +108,6 @@ public class Mp3FileTest {
 	}
 
 	@Test
-	public void shouldThrowExceptionIfSavingMp3WithSameNameAsSourceFile() throws Exception {
-		Mp3File mp3File = new Mp3File(MP3_WITH_ID3V1_AND_ID3V23_AND_CUSTOM_TAGS);
-		testShouldThrowExceptionIfSavingMp3WithSameNameAsSourceFile(mp3File);
-	}
-
-	@Test
-	public void shouldThrowExceptionIfSavingMp3WithSameNameAsSourceFileForFileConstructor() throws Exception {
-		Mp3File mp3File = new Mp3File(new File(MP3_WITH_ID3V1_AND_ID3V23_AND_CUSTOM_TAGS));
-		testShouldThrowExceptionIfSavingMp3WithSameNameAsSourceFile(mp3File);
-	}
-
-	private void testShouldThrowExceptionIfSavingMp3WithSameNameAsSourceFile(Mp3File mp3File) throws NotSupportedException, IOException {
-		System.out.println(mp3File.getFilename());
-		System.out.println(MP3_WITH_ID3V1_AND_ID3V23_AND_CUSTOM_TAGS);
-		try {
-			mp3File.save(MP3_WITH_ID3V1_AND_ID3V23_AND_CUSTOM_TAGS);
-			fail("IllegalArgumentException expected but not thrown");
-		} catch (IllegalArgumentException e) {
-			assertEquals("Save filename same as source filename", e.getMessage());
-		}
-	}
-
-	@Test
 	public void shouldSaveLoadedMp3WhichIsEquivalentToOriginal() throws Exception {
 		copyAndCheckTestMp3WithCustomTag(MP3_WITH_ID3V1_AND_ID3V23_AND_CUSTOM_TAGS, 41);
 		copyAndCheckTestMp3WithCustomTag(MP3_WITH_ID3V1_AND_ID3V23_AND_CUSTOM_TAGS, 256);
